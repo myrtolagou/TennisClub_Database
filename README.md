@@ -8,21 +8,23 @@ This system handles the full operational data of a tennis club, including member
  
 ## Features
  
-- **Member & Coach Management** — Add, update, and delete member and coach records
-- **Court Reservations** — Book courts with time conflict detection and operating hours validation
-- **Equipment Rental** — Track racket and ball rentals per session
-- **Tournament Management** — Manage singles and doubles tournaments, track match results and winners
-- **Analytical Queries** — 8 built-in queries including:
+- **Member & Coach Management:** Add, update, and delete member and coach records
+- **Court Reservations:** Book courts with time conflict detection and operating hours validation
+- **Equipment Rental:** Track racket and ball rentals per session
+- **Tournament Management:** Manage singles and doubles tournaments, track match results and winners
+- **Analytical Queries:** 8 built-in queries including:
   - Training sessions per coach per month
   - Match schedule
   - Available coaches and courts by date/time
   - Average match duration per tournament winner
   - Individual vs. group training sessions per member
+    
 ## Tech Stack
  
-- **Python** — Application logic and CLI interface
-- **SQLite** — Relational database engine
-- **SQL** — Complex queries with JOINs, window functions, aggregations, and date filtering
+- **Python:** Application logic and CLI interface
+- **SQLite:** Relational database engine
+- **SQL:** Queries with JOINs, window functions, aggregations, and date filtering
+
 ## Project Structure
  
 ```
