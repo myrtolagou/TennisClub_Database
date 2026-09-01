@@ -4,24 +4,24 @@ from datetime import datetime
 global conn,cursor
 conn=sqlite3.connect("TennisClub.db")
 cursor=conn.cursor()
-print("\n Επιτυχής σύνδεση στη βάση")
+print("\n Successfully connected to the database")
 
 
 while True:
     os.system('cls')
-    ch=input("""\nΕπιλέξτε ένα από τα παρακάτω ερωτήματα!
-1.Εύρεση πλήθους προπονήσεων ανά προπονητή,το μήνα που επιθυμεί ο χρήτης.
-2.Πρόγραμμα αγώνων.
-3.Εμφάνιση συμμετεχόντων ανά ομάδα.
-4.Εμφάνιση μελών που προπονεί ο προπονητής που επιθυμεί ο χρήστης.
-5.Εύρεση διαθέσιμων προπονητών την ημερομηνία και ώρα που επιθυμεί ο χρήστης.
-6.Εύρεση διαθέσιμων γηπέδων την ημερομηνία και ώρα που επιθυμεί ο χρήστης.
-7.Εύρεση μέσης διάρκειας αγώνων των νικητών του διπλού Τουρνουά Νοεμβρίου 2022.
-8.Εύρεση του πλήθους των ατομικών και των ομαδικών προπονήσεων κάθε μέλους.\n""")
+    ch=input("""\nSelect one of the following queries:
+1. Find the number of training sessions per coach for a given month.
+2. Match schedule.
+3. Display participants per team.
+4. Display members trained by a selected coach.
+5. Find available coaches on a given date and time.
+6. Find available courts on a given date and time.
+7. Find the average match duration of the winners of the November 2022 Doubles Tournament.
+8. Find the number of individual and group training sessions per member.\n""")
 
     if(ch=="1"):
         os.system('cls')
-        month=input("\nΕισάγετε τον επιθυμητό μήνα(01-12):")
+        month=input("\nEnter the desired month (01-12):")
         cursor.execute("""SELECT first_name,last_name,count(id_coach) as ar_prop
 FROM Coach natural join Reserves
 Where strftime("%m",reservation_date)=?
@@ -30,12 +30,12 @@ ORDER BY ar_prop ASC;""",(month,))
         data=cursor.fetchall()
         style="{:<16}{:<16}{:<2}"
         if(len(data)==0):
-            print("\nΔεν βρέθηκαν αποτελέσματα για τη δοθείσα τιμή")
+            print("\nNo results found for the given value.")
         else:
             print(style.format("First_name","Last_name","plithos_proponhsewn"))
             for i in data:
                 print(style.format(i[0],i[1],i[2]))
-        input("\nΠατήστε Enter για να συνεχίσετε!")
+        input("\nPress Enter to continue!")
                 
     if(ch=="2"):
         os.system('cls')
@@ -56,12 +56,12 @@ order by gamedate ASC;""")
         data=cursor.fetchall()
         style="{:<12}{:<30}{:<13}{:<25}"
         if(len(data)==0):
-            print("\nΔεν βρέθηκαν αποτελέσματα ")
+            print("\nNo results found. ")
         else:
             print(style.format("Gamedate","Home_team","final_score","Away_team"))
             for i in data:
                 print(style.format(i[0],i[1],i[2],i[3]))
-        input("\nΠατήστε Enter για να συνεχίσετε!")
+        input("\nPress Enter to continue!")
 
     if(ch=="3"):
         os.system('cls')
@@ -72,40 +72,40 @@ order by team_name;""")
         data=cursor.fetchall()
         style="{:<12}{:<15}{:<15}"
         if(len(data)==0):
-            print("\nΔεν βρέθηκαν αποτελέσματα")
+            print("\nNo results found.")
         else:
             print(style.format("team_name","first_name", "last_name"))
             for i in data:
                 print(style.format(i[0],i[1],i[2]))
-        input("\nΠατήστε Enter για να συνεχίσετε!")
+        input("\nPress Enter to continue!")
 
     if(ch=="4"):
         os.system('cls')
-        coach=input("\nΕισάγετε τον επιθυμητό προπονητή(1-6):")
+        coach=input("\nEnter the desired coach ID (1-6):")
         cursor.execute("""SELECT distinct first_name, last_name
 from Member NATURAL join Reserves
 where id_coach=?;""",(coach,))
         data=cursor.fetchall()
         style="{:<15}{:<15}"
         if(len(data)==0):
-            print("\nΔεν βρέθηκαν αποτελέσματα για τη δοθείσα τιμή")
+            print("\nNo results found for the given value.")
         else:
             print(style.format("first_name", "last_name"))
             for i in data:
                 print(style.format(i[0],i[1]))
-        input("\nΠατήστε Enter για να συνεχίσετε!")
+        input("\nPress Enter to continue!")
 
 
     if(ch=="5"):
         os.system('cls')
         while True:
             try:
-                date=input("\nΕισάγετε την επιθυμητή ημερομηνία(YYYY-MM-DD):")
+                date=input("\nEnter the desired date (YYYY-MM-DD):")
                 date=datetime.strptime(date,"%Y-%m-%d")
                 break
             except:
-                print("\nΛάθος μορφή ημερομηνίας.Προσπαθήστε ξανά!")
-        hour=input("\nΕισάγετε την επιθυμητή ώρα(HH):")
+                print("\nInvalid date format. Please try again!")
+        hour=input("\nEnter the desired hour (HH):")
         cursor.execute("""select DISTINCT first_name, last_name 
 from Coach
 where id_coach not in (
@@ -117,23 +117,23 @@ AND (strftime("%H",?) BETWEEN strftime("%H",start_time) and strftime("%H",ending
         data=cursor.fetchall()
         style="{:<15}{:<15}"
         if(len(data)==0):
-            print("\nΔεν βρέθηκαν αποτελέσματα για τη δοθείσα τιμή")
+            print("\nNo results found for the given value.")
         else:
             print(style.format("first_name", "last_name"))
             for i in data:
                 print(style.format(i[0],i[1]))
-        input("\nΠατήστε Enter για να συνεχίσετε!")
+        input("\nPress Enter to continue!")
 
     if(ch=="6"):
         os.system('cls')
         while True:
             try:
-                date=input("\nΕισάγετε την επιθυμητή ημερομηνία(YYYY-MM-DD):")
+                date=input("\nEnter the desired date (YYYY-MM-DD)")
                 date=datetime.strptime(date,"%Y-%m-%d")
                 break
             except:
-                 print("\nΛάθος μορφή ημερομηνίας.Προσπαθήστε ξανά!")
-        hour=input("\nΕισάγετε την επιθυμητή ώρα(HH):")
+                 print("\nInvalid date format. Please try again!")
+        hour=input("\nEnter the desired hour (HH):")
         cursor.execute("""SELECT DISTINCT court_number
 FROM Court
 WHERE court_number not in (
@@ -144,12 +144,12 @@ AND (strftime("%H",?) BETWEEN strftime("%H",start_time) and strftime("%H",ending
 );""",(date,hour))
         data=cursor.fetchall()
         if(len(data)==0):
-            print("\nΔεν βρέθηκαν αποτελέσματα για τη δοθείσα τιμή")
+            print("\nNo results found for the given value.")
         else:
             print("court_number")
             for i in data:
                 print(i[0])
-        input("\nΠατήστε Enter για να συνεχίσετε!")
+        input("\nPress Enter to continue!")
     
         
     if(ch=="7"):
@@ -168,12 +168,12 @@ where home_id=winner_male or away_id=winner_male;""")
         data=cursor.fetchall()
         style="{:<15}{:<5}"
         if(len(data)==0):
-            print("\nΔεν βρέθηκαν αποτελέσματα")
+            print("\nNo results found.")
         else:
             print(style.format("winner","mesh_diarkeia_agwnwn"))
             for i in data:
                 print(style.format(i[0],i[1]))
-        input("\nΠατήστε Enter για να συνεχίσετε!")
+        input("\nPress Enter to continue!")
         
     if(ch=="8"):
         os.system('cls')
@@ -185,12 +185,12 @@ id_coach is not NULL GROUP by id_member;""")
         data=cursor.fetchall()
         style="{:<15}{:<18}{:<15}{:<15}"
         if(len(data)==0):
-            print("\nΔεν βρέθηκαν αποτελέσματα ")
+            print("\nNo results found.")
         else:
             print(style.format("first_name","last_name","atomikes_prop","omadikes_prop"))
             for i in data:
                 print(style.format(i[0],i[1],i[2],i[3]))
-        input("\nΠατήστε Enter για να συνεχίσετε!")
+        input("\nPress Enter to continue!")
 
 
 
