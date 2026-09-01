@@ -1,6 +1,6 @@
 # Tennis Club Database Management System
  
-A relational database application built with Python and SQLite for managing a tennis club's operations, developed as part of the "Databases" course at the University of Patras, December 2022.
+This Repository contains the code developed for a relational database application built with Python and SQLite for managing a tennis club's operations, as part of the Databases (ECE_ΓK703) course.
  
 ## Overview
  
